@@ -1,20 +1,14 @@
 <?php
 
+namespace Biblioteca\Menu;
+
 $estructuraMenu = [
   "titulo" => "Sistema Biblioteca",
   "opciones" => [
-    "1" => ["descripcion" => "Prestar libro", "accion" => "accionPrestarLibro"],
-    "2" => ["descripcion" => "Devolver libro", "accion" => "accionDevolverLibro"],
+    "1" => ["descripcion" => "Ver catalogo"],
+    "2" => ["descripcion" => "Pedir prestado"],
+    "3" => ["descripcion" => "Devolver libro"],
+    "4" => ["descripcion" => "Ver mis libros"],
+    "S" => ["descripcion" => "Salir"],
   ]
 ];
-
-$opcionesSistema = [
-  "titulo" => "Opciones del Sistema",
-  "opciones" => [
-    "S" => [
-      "descripcion" => "Salir", 
-      "accion" => "accionSalir"]
-  ]
-];
-
-

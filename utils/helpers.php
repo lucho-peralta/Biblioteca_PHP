@@ -1,37 +1,28 @@
 <?php
 
+namespace Biblioteca\Helpers;
 
-function prompt(string $mensaje): string
+function pedirEntrada(string $mensaje): string
 {
   echo $mensaje;
   return trim(fgets(STDIN));
 }
 
-function buscarSocioPorId(array $listaSocios, int $id): ?object
-{
 
-  foreach ($listaSocios as $socio) {
-    if ($socio->getId() === $id) return $socio;
-  }
-  return null;
+function esNumeroValido(string $entrada): bool
+{
+  return ctype_digit($entrada);
 }
 
-function buscarLibroPorISBN(array $listaLibros, string $isbn): ?object
+function pedirHasta(string $mensaje, callable $validador): string
 {
 
-  foreach ($listaLibros as $libro) {
-    if ($libro->getISBN() === $isbn) return $libro;
+  $entrada = pedirEntrada($mensaje);
+
+  while (!$validador($entrada)) {
+    echo "Entrada inválida. \n";
+    $entrada = pedirEntrada($mensaje);
   }
-  return null;
-}
 
-function mostrarMenu(array $menu): void
-{
-  echo "\033[2J\033[H";
-
-  echo "\n--- {$menu['titulo']} ---- \n";
-
-  foreach ($menu['opciones'] as $clave => $opcion) {
-    echo "{$clave}. {$opcion['descripcion']}\n";
-  }
+  return $entrada;
 }

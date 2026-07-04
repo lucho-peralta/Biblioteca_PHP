@@ -1,7 +1,7 @@
 <?php
-require_once BASE_PATH . '/Domain/Libro.php';
 
 
+namespace Biblioteca\Domain;
 
 class Socio
 {
@@ -33,48 +33,45 @@ class Socio
     return $this->apellido;
   }
 
-  public function prestarLibro(Libro $libro): bool
+  public function pedirPrestado(Libro $libro): bool
   {
-    if (!$libro->estaDisponible()) {
-      echo "El libro no esta disponible.\n";
-      return false;
-    }
+    if (!$libro->estaDisponible()) return false;
 
     $libro->prestar();
     $this->librosPrestados[] = $libro;
-    echo "Libro '{$libro->getTitulo()}' prestado a '{$this->nombre}'.\n";
     return true;
+  }
+
+  private function buscarIndiceLibro(Libro $libro): ?int
+  {
+    $indice = array_search($libro, $this->librosPrestados, true);
+    return is_int($indice) ? $indice : null;
+  }
+
+  private function eliminarLibroPorIndice(int $indice): void
+  {
+    array_splice($this->librosPrestados, $indice, 1);
   }
 
   public function devolverLibro(Libro $libro): bool
   {
-    $indice = array_search($libro, $this->librosPrestados, true);
+    $indice = $this->buscarIndiceLibro($libro);
 
-    if ($indice === false) {
-      echo "Este socio no tiene ese libro prestado.\n";
-      return false;
-    }
+    if ($indice === null) return false;
 
+    $this->eliminarLibroPorIndice($indice);
     $libro->devolver();
-    array_splice($this->librosPrestados, $indice, 1);
-    echo "Libro '{$libro->getTitulo()}' devuelto por '{$this->nombre}'.\n";
     return true;
   }
 
-  public function listarLibrosPrestados(): void
+  public function getLibrosPrestados(): array
   {
-    if (count($this->librosPrestados) === 0) {
-      echo "No hay libros prestados.\n";
-      return;
-    }
-
-    foreach ($this->librosPrestados as $libro) {
-      $libro->mostrarInformacion();
-    }
+    return $this->librosPrestados;
   }
 
-  public function mostrarInformacion(): void
+
+  public function mostrarInformacion(): string
   {
-    echo "ID: {$this->id} | Nombre: {$this->nombre} {$this->apellido}\n";
+    return "ID: {$this->id} | Nombre: {$this->nombre} {$this->apellido}";
   }
 }
