@@ -13,4 +13,4 @@ $accion = new Accion($listaLibros, $listaSocios);
 
 $socioLogueado = autenticar($listaSocios);
 
-$navegador = new Navegador($estructuraMenu, $accion, $socioLogueado, $listaLibros);
+$navegador = new Navegador($estructuraMenu, $accion, $socioLogueado);

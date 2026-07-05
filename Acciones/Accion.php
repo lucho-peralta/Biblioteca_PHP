@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Biblioteca\Acciones;
 
 use Biblioteca\Domain\Libro;
@@ -7,24 +8,27 @@ use Biblioteca\Domain\Socio;
 
 class Accion
 {
-
-  private array $listaLibros; // relacion de agregacion. Solo una referencia.
+  private array $listaLibros;
   private array $listaSocios;
 
   public function __construct(array $listaLibros, array $listaSocios)
   {
-
     $this->listaLibros = $listaLibros;
     $this->listaSocios = $listaSocios;
   }
 
   public function verCatalogo(): void
   {
-
     foreach ($this->listaLibros as $libro) {
       echo $libro->mostrarInformacion() . "\n";
     }
   }
+
+  public function obtenerCatalogo(): array
+  {
+    return $this->listaLibros;
+  }
+
   public function pedirPrestado(Socio $socio, Libro $libro): void
   {
     if (!$socio->pedirPrestado($libro)) {

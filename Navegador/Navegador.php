@@ -12,13 +12,13 @@ class Navegador
   private array $estructuraMenu;
   private array $comandos;
 
-  public function __construct(array $estructuraMenu, Accion $accion, Socio $socioLogueado, array $listaLibros)
+  public function __construct(array $estructuraMenu, Accion $accion, Socio $socioLogueado)
   {
     $this->estructuraMenu = $estructuraMenu;
 
     $this->comandos = [
       "1" => fn() => $accion->verCatalogo(),
-      "2" => fn() => $accion->pedirPrestado($socioLogueado, $this->elegirDeListado($listaLibros)),
+      "2" => fn() => $accion->pedirPrestado($socioLogueado, $this->elegirDeListado($accion->obtenerCatalogo())),
       "3" => fn() => $this->procesarDevolucion($accion, $socioLogueado),
       "4" => fn() => $accion->verMisLibros($socioLogueado),
     ];
